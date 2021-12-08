@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Navbar from "../components/navbar";
 import React, { useState } from "react";
+import axios from "axios";
 
 export default function Home({ data }) {
   console.log(data);
@@ -40,8 +41,9 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("https://dog.ceo/api/breeds/image/random");
-  const data = await res.json();
+  const res = await axios("https://dog.ceo/api/breeds/image/random");
+  const { data } = res;
+  // console.log(res.data);
   return {
     props: {
       data,

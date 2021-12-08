@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 import Navbar from "../components/navbar";
 
@@ -10,8 +11,8 @@ const Browse = ({ data }) => {
   const breedList = Object.keys(data.message);
 
   const getDogImages = async (breedName) => {
-    const res = await fetch(`https://dog.ceo/api/breed/${breedName}/images`);
-    const data = await res.json();
+    const res = await axios(`https://dog.ceo/api/breed/${breedName}/images`);
+    const { data } = res;
     console.log(data.message);
     setBreedImages(data.message);
   };
@@ -64,10 +65,10 @@ const Browse = ({ data }) => {
                     height: "23rem",
                     objectFit: "contain",
                   }}
+                  key={breedImage}
                 >
                   <img
                     style={{ width: "100%", height: "100%" }}
-                    key={breedImage}
                     src={breedImage}
                   ></img>
                 </div>
@@ -83,8 +84,8 @@ const Browse = ({ data }) => {
 };
 
 export async function getStaticProps() {
-  const res = await fetch("https://dog.ceo/api/breeds/list/all");
-  const data = await res.json();
+  const res = await axios("https://dog.ceo/api/breeds/list/all");
+  const { data } = res;
   return {
     props: {
       data,
